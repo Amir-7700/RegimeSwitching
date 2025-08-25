@@ -1,71 +1,3 @@
-
-# hmm different things ----------------------------------------------------
-
-library(hmmTMB)
-
-data_hmm <- data.frame(
-  zt1 = zt1,
-  time = 1:length(zt1)
-)
-formula_matrix <- matrix("~ time", nrow = 4, ncol = 4)
-
-#formula_matrix[1, 2] <- "~1"
-#formula_matrix[3, 1] <- "."
-formula_matrix[4, 2] <- "."
-
-
-diag(formula_matrix) <- "."  # self-transitions still not estimated
-
-# Use diagonal as reference transitions
-ref_vec <- c(1, 2, 3, 2)
-
-# Create time-dependent MarkovChain object
-hid <- MarkovChain$new(
-  data = data_hmm,
-  formula = formula_matrix,
-  ref = ref_vec,
-  n_states = 4
-)
-
-# Step 4: Observation model
-init_par <- list(
-  zt1 = list(mean = c(-0.0004 , -0.02, 0.12, -0.1), sd = c(0.01, 0.025, 0.12, 0.1))
-)
-
-obs <- Observation$new(
-  data = data_hmm,
-  dists = list(zt1 = "norm"),
-  n_states = 4,
-  par = init_par
-)
-
-# Step 5: HMM with time-varying transitions
-hmm_model_time <- HMM$new(hid = hid, obs = obs)
-hmm_model_time$fit(silent = FALSE, control = list(eval.max = 5000, iter.max = 10000))
-
-# Step 6: Predict TPM at all time points
-tpm_all <- hmm_model_time$predict(what = "tpm", t = "all")
-
-smoothed_probs <- hmm_model_time$state_probs()
-
-viterbi_states <- hmm_model_time$viterbi()
-plot(viterbi_states, type = "s", lwd = 2, col = "blue",
-     main = "Viterbi Decoded States", ylab = "Regime", xlab = "Time")
-
-time_vec <- 2:length(kappa1)  # because zt1 = diff(kappa1)
-kappa1_short <- kappa1[-1]
-n_regimes <- length(unique(viterbi_states))
-regime_colors <- c("red", "green", "blue","black")
-plot(time_vec, kappa1_short, type = "l", col = "black", lwd = 2,
-     xlab = "Time", ylab = expression(kappa[1]),
-     main = expression(kappa[1] ~ "with Dominant Regime (Viterbi Decoded)"))
-
-points(time_vec, kappa1_short, col = regime_colors[viterbi_states], pch = 16)
-
-legend("topright", legend = paste("Regime", 1:n_regimes),
-       col = regime_colors, pch = 16, bty = "n")
-
-
 # hmm 4 revised (main for the paper) -----------------------------------------------------------
 
 
@@ -80,7 +12,7 @@ data_hmm <- data.frame(
 formula_matrix <- matrix("~1", nrow = 4, ncol = 4)
 
 #formula_matrix[1, 2] <- "~1"
-#formula_matrix[3, 1] <- "."
+formula_matrix[3, 1] <- "."
 formula_matrix[4, 2] <- "."
 
 
