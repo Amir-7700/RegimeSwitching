@@ -75,8 +75,7 @@ ggplot(USAT90, aes(x = Year, y = USA_xbar)) +
   )+
   theme_minimal()
 
-USA <-hmd.mx(country = "USA", username = 'aaminima@uwo.ca', password = 'Amir_7700_', label="USA")
-USA
+USA <-
 ita.StMoMoData<-StMoMoData(data=USA, series = "total",type="central") # change the series to male or female or total
 IniData <- central2initial(ita.StMoMoData)
 ages.fit <- 20:100
