@@ -1,4 +1,3 @@
-# ================= ONE-CHUNK: 95% CI EXACTLY AT 2023 (GRAY ERROR BARS, ALIGNED) =================
 suppressPackageStartupMessages({
   library(ggplot2)
   library(dplyr)
@@ -92,13 +91,7 @@ ggplot() +
 # =====================================================================================
 
 
-# ================= ONE-CHUNK: 95% CI EXACTLY AT 2023 (GRAY ERROR BARS, ALIGNED) =================
-suppressPackageStartupMessages({
-  library(ggplot2)
-  library(dplyr)
-  library(tidyr)
-  library(purrr)
-})
+
 
 # ---- User controls ----
 ages <- c("20","35","55","60", "65", "70")
@@ -185,22 +178,6 @@ ggplot() +
   )
 # =====================================================================================
 
-
-
-
-
-
-
-
-
-
-
-# ===== ONE-CHUNK: Coverage SUMMARY ONLY (Proposed, Seklecka, Plat, APC, LC; in that order) =====
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(purrr)
-  library(tibble)
-})
 
 # ---------------- USER CONTROLS ----------------
 probs       <- c(0.025, 0.975)  # 95% PI
@@ -543,13 +520,6 @@ cat(sprintf(
 
 
 
-
-
-
-
-library(dplyr)
-library(tidyr)
-library(ggplot2)
 
 # Matrix of mortality rates
 rates <- USA$rate$total   # rows: ages, cols: years
